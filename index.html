@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apifarma Bakov | Med, Sirupy a Relaxace</title>
+    <meta name="description" content="Rodinné včelařství Apifarma Bakov. Nabízíme med, medovinu, bylinné sirupy, svíčky a unikátní relaxaci v Apidomku.">
+    
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN TOKENS (Extracted from your Logo) --- */
+        :root {
+            /* Brand Colors */
+            --col-brown: #5D4037;   /* Roof/Text color */
+            --col-green: #689F38;   /* Grass color */
+            --col-blue: #B3E5FC;    /* Sky hint */
+            --col-honey: #F9A825;   /* Bee yellow */
+            --col-cream: #FDFBF7;   /* Background */
+            --col-white: #FFFFFF;
+            
+            /* UI Elements */
+            --radius-sm: 8px;
+            --radius-lg: 24px;
+            --shadow-card: 0 10px 30px rgba(93, 64, 55, 0.08);
+            --shadow-hover: 0 20px 40px rgba(93, 64, 55, 0.15);
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--col-cream);
+            color: var(--col-brown);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 700; line-height: 1.2; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { display: block; max-width: 100%; }
+
+        /* --- LAYOUT UTILS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .section-pad { padding: 100px 0; }
+        .text-center { text-align: center; }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* Decorative underline styling */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--col-honey);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--col-green);
+            color: white;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(104, 159, 56, 0.3);
+        }
+        .btn:hover {
+            background-color: var(--col-brown);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            box-shadow: none;
+        }
+        .btn-outline:hover { background: white; color: var(--col-brown); }
+
+        /* --- HEADER --- */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            padding: 10px 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-logo {
+            height: 70px;
+            width: auto;
+            border-radius: 50%;
+        }
+
+        .brand-name {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--col-brown);
+            display: none; /* Hidden on mobile */
+        }
+        @media(min-width: 768px) { .brand-name { display: block; } }
+
+        .nav-links { display: none; gap: 30px; align-items: center; }
+        @media(min-width: 900px) { .nav-links { display: flex; } }
+        
+        .nav-links a { font-weight: 700; font-size: 0.95rem; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--col-green); }
+
+        /* --- HERO --- */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)), url('images/hero-bg.webp');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        
+        .hero-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- ABOUT (Intro) --- */
+        .intro p { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #666; }
+
+        /* --- SERVICES (APIDOMEK) --- */
+        .apidomek { background-color: #F1F8E9; }
+        
+        .service-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        @media(min-width: 900px) { .service-layout { grid-template-columns: 1fr 1fr; } }
+
+        .service-img-wrapper { position: relative; }
+        .service-img-wrapper img { border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
+
+        .highlight-box {
+            background: white;
+            padding: 20px;
+            border-left: 5px solid var(--col-honey);
+            margin: 20px 0;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-style: italic;
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .benefit-item { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.9rem; }
+        .icon-check { color: var(--col-green); }
+
+        /* --- PRODUCTS (Scroll Snap Gallery) --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: #eee;
+        }
+
+        .gallery-scroller {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            height: 100%;
+            width: 100%;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        .gallery-scroller::-webkit-scrollbar { display: none; }
+
+        .gallery-item {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        .gallery-label {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--col-brown);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-content { padding: 25px; }
+        .card-content h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--col-brown); }
+        
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .tag {
+            font-size: 0.75rem;
+            background: var(--col-cream);
+            border: 1px solid #eee;
+            padding: 4px 10px;
+            border-radius: 4px;
+            color: #666;
+        }
+        .tag.highlight { background: var(--col-green); color: white; border-color: var(--col-green); }
+
+        .swipe-hint {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* --- CONTACT --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+        @media(max-width: 800px) { .contact-wrapper { grid-template-columns: 1fr; } }
+
+        .contact-info { background: var(--col-brown); color: var(--col-cream); padding: 50px; }
+        .contact-form { padding: 50px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.85rem; }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .form-input:focus { outline: none; border-color: var(--col-green); }
+        .contact-detail { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .contact-icon { font-size: 1.2rem; color: var(--col-honey); }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #3E2723;
+            color: rgba(255,255,255,0.6);
+            padding: 60px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-logo { max-width: 120px; margin: 0 auto 20px; border-radius: 50%; opacity: 0.8; }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            transition: 0.3s;
+        }
+        .social-link:hover svg { fill: var(--col-honey); transform: scale(1.1); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo-wrapper">
+                    <img src="images/logo.webp" alt="Apifarma Bakov Logo" class="nav-logo">
+                    <span class="brand-name">Apifarma Bakov</span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="#about">O nás</a>
+                    <a href="#apidomek">Apidomek</a>
+                    <a href="#products">Produkty</a>
+                    <a href="#contact">Kontakt</a>
+                    <a href="#contact" class="btn">Objednat</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div>
+            <h1>Poctivé včelařství<br>s dotekem přírody</h1>
+            <p>Tradiční med, domácí sirupy a léčivá relaxace přímo v úle.</p>
+            <div class="hero-btns">
+                <a href="#products" class="btn">Naše produkty</a>
+                <a href="#apidomek" class="btn btn-outline">Zjistit o Apidomku</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro -->
+    <section id="about" class="section-pad intro">
+        <div class="container text-center">
+            <h2 class="section-title">Vítejte v Apifarmě</h2>
+            <p><br>Jsme rodinné včelařství, které spojuje tradici s láskou k včelám. Naše produkty vznikají v čisté přírodě, ručně a s maximální péčí. Kromě skvělého medu nabízíme i unikátní zážitek – apiterapii v našem speciálním domku.</p>
+        </div>
+    </section>
+
+    <!-- Apidomek Services -->
+    <section id="apidomek" class="section-pad apidomek">
+        <div class="container">
+            <div class="service-layout">
+                <div>
+                    <h2 class="section-title" style="margin-bottom: 30px;">Relaxace v Apidomku</h2>
+                    <h3>Spaní na včelách 🐝🏠</h3>
+                    <p>Nabízíme netradiční zážitek v podobě relaxace v Apidomku se včelami. Obdarujte sebe, nebo své blízké zdravím.</p>
+                    
+                    <div class="highlight-box">
+                        "Nechte na sebe působit včelí bioenergetické pole a dýchejte úlový vzduch za bzukotu pracovitých včel."
+                    </div>
+
+                    <p><strong>Co je to apidomek?</strong> Dřevěný domeček, v jehož útrobách je přes půl milionu včel. Vy ležíte bezpečně na lůžku přímo nad úly. Úlový vzduch obsahuje směsici prospěšných látek z medu, propolisu a pylu.</p>
+
+                    <div class="benefit-grid">
+                        <div class="benefit-item"><span class="icon-check">✓</span> Redukce stresu</div>
+                        <div class="benefit-item"><span class="icon-check">✓</span> Posílení imunity</div>
+                        <div class="benefit-item"><span class="icon-check">✓</span> Dýchací cesty</div>
+                        <div class="benefit-item"><span class="icon-check">✓</span> Hluboká relaxace</div>
+                    </div>
+                    <br>
+                    <a href="#contact" class="btn">Rezervovat termín</a>
+                </div>
+                <div class="service-img-wrapper">
+                    <img src="images/interior.webp" alt="Interiér apidomku">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="section-pad">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Naše Produkty</h2>
+                <p>Ruční výroba, 100% přírodní složení.</p>
+            </div>
+
+            <div class="products-grid">
+
+                <!-- 1. MED (Honey) - Multiple Images/Types -->
+                <div class="product-card">
+                    <div class="gallery-container">
+                        <div class="swipe-hint">↔</div> 
+                        <div class="gallery-scroller">
+                            <div class="gallery-item">
+                                <img src="images/honey.webp" alt="Med Květový">
+                                <div class="gallery-label">Květový</div>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="images/med-pasterovany.jpg" alt="Med Pastovaný">
+                                <div class="gallery-label">Pastovaný</div>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="images/med-ochuceny.jpg" alt="Med Ochucený">
+                                <div class="gallery-label">Ochucený</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Včelí Med</h3>
+                        <p>Zlatý poklad z našich úlů v té nejvyšší kvalitě.</p>
+                        <div class="tag-cloud">
+                            <span class="tag highlight">Květový</span>
+                            <span class="tag">Pastovaný</span>
+                            <span class="tag">Ochucený</span>
+                            <span class="tag">Různé velikosti</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SIRUPY (Syrups) -->
+                <div class="product-card">
+                    <div class="gallery-container">
+                        <div class="gallery-scroller">
+                            <div class="gallery-item">
+                                <img src="images/sipek.webp" alt="Sirup šípek">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="images/sirup-detail.jpg" alt="Detail sirupu">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bylinné Sirupy</h3>
+                        <p>Husté sirupy plné chuti bylinek. Skvělé do limonád.</p>
+                        <div class="tag-cloud">
+                            <span class="tag">Bezinka</span>
+                            <span class="tag">Jitrocel</span>
+                            <span class="tag">Šípek</span>
+                            <span class="tag">Kopřiva</span>
+                            <span class="tag">Meduňka</span>
+                            <span class="tag">Pampeliška</span>
+                            <span class="tag">Rozmarýn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. MEDOVINA -->
+                <div class="product-card">
+                    <div class="gallery-container">
+                        <div class="gallery-scroller">
+                            <div class="gallery-item">
+                                <img src="images/medovina.webp" alt="Medovina">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Tradiční Medovina</h3>
+                        <p>Královský nápoj vzniklý kvašením medu.</p>
+                        <div class="tag-cloud">
+                            <span class="tag highlight">18+</span>
+                            <span class="tag">Přírodní</span>
+                            <span class="tag">Bylinná</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. PERNÍČKY -->
+                <div class="product-card">
+                    <div class="gallery-container">
+                        <div class="gallery-scroller">
+                            <div class="gallery-item">
+                                <img src="images/gingerbread.webp" alt="Perníčky">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Medové Perníčky</h3>
+                        <p>Křupavé, voňavé a krásně zdobené pro každou příležitost.</p>
+                        <div class="tag-cloud">
+                            <span class="tag highlight">Jedlý papír</span>
+                            <span class="tag">Zdobené</span>
+                            <span class="tag">Dárkové balení</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. SVÍČKY -->
+                <div class="product-card">
+                    <div class="gallery-container">
+                        <div class="gallery-scroller">
+                            <div class="gallery-item">
+                                <img src="images/candles.webp" alt="Svíčky ze včelího vosku">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Včelí Svíčky</h3>
+                        <p>Přírodní svíčky ze 100% včelího vosku. Krásně voní i nezapálené.</p>
+                        <div class="tag-cloud">
+                            <span class="tag">Včelí vosk</span>
+                            <span class="tag">Různé tvary</span>
+                            <span class="tag">Bez chemie</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section-pad" style="background: #EFEBE9;">
+        <div class="container">
+            <h2 class="section-title text-center" style="display:block; margin-bottom: 50px;">Kontaktujte nás</h2>
+            
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3 style="color: white; margin-bottom: 30px;">Kde nás najdete?</h3>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Apifarma Bakov</strong><br>
+                            Bakov, Česká republika
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Telefon</strong><br>
+                            +420 123 456 789
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            info@apifarmabakov.cz
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 30px; opacity: 0.8; font-size: 0.9rem;">
+                        Otevřeno dle telefonické domluvy.<br>
+                        Těšíme se na vaši návštěvu!
+                    </p>
+                </div>
+
+                <div class="contact-form">
+                    <h3 style="margin-bottom: 20px;">Napište nám</h3>
+                    <form>
+                        <div class="form-group">
+                            <label>Jméno a příjmení</label>
+                            <input type="text" class="form-input" placeholder="Jan Novák">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-input" placeholder="vas@email.cz">
+                        </div>
+                        <div class="form-group">
+                            <label>Mám zájem o...</label>
+                            <select class="form-input" style="background: white;">
+                                <option>Objednávku medu/produktů</option>
+                                <option>Rezervaci Apidomku</option>
+                                <option>Jiný dotaz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Zpráva</label>
+                            <textarea rows="4" class="form-input" placeholder="Dobrý den..."></textarea>
+                        </div>
+                        <button class="btn" style="border:none; width: 100%; cursor: pointer;">Odeslat zprávu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <img src="images/logo.webp" alt="Logo Footer" class="footer-logo">
+            <h3>Apifarma Bakov</h3>
+            
+            <!-- Social Icons (SVG) -->
+            <div class="social-icons">
+                <!-- Facebook Link -->
+                <a href="https://www.facebook.com" target="_blank" class="social-link" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+                </a>
+                <!-- Instagram Link -->
+                <a href="https://www.instagram.com" target="_blank" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.38 3.85 3.88 2.31 7.15 2.16 8.42 2.1 8.8 2.16 12 2.16zm0-2.16c-3.26 0-3.66.01-4.94.07C3.53.27 1.63 2.2.82 5.06.76 6.34.75 6.74.75 10c0 3.26.01 3.66.07 4.94.22 2.85 2.16 4.75 5.01 5.31 1.28.06 1.68.07 4.94.07 3.26 0 3.66-.01 4.94-.07 2.85-.22 4.75-2.16 5.31-5.01.06-1.28.07-1.68.07-4.94 0-3.26-.01-3.66-.07-4.94-.22-2.85-2.16-4.75-5.31-5.01C15.66.01 15.26 0 12 0z"/><path d="M12 5.84c-3.4 0-6.16 2.76-6.16 6.16s2.76 6.16 6.16 6.16 6.16-2.76 6.16-6.16-2.76-6.16-6.16-6.16zm0 10.16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/><circle cx="18.41" cy="5.63" r="1.44"/></svg>
+                </a>
+            </div>
+
+            <p>&copy; 2024 Apifarma Bakov. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

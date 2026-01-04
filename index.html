@@ -185,6 +185,266 @@
         }
         .nav-links a:hover { color: var(--col-green); }
 
+        /* --- MOBILE MENU SYSTEM --- */
+
+        /* Hamburger Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1002;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .mobile-menu-toggle:focus {
+            outline: 2px solid var(--col-green);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        /* Show hamburger below 900px */
+        @media(max-width: 899px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Hamburger Icon (3 lines) */
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 28px;
+            height: 20px;
+        }
+
+        .hamburger-icon .line {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--col-brown);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hamburger Animation when menu is open */
+        .mobile-menu-toggle[aria-expanded="true"] .line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-toggle[aria-expanded="true"] .line:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .mobile-menu-toggle[aria-expanded="true"] .line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Overlay (Backdrop) */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(93, 64, 55, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile Menu Panel (Slide-in from right) */
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 85%;
+            max-width: 380px;
+            height: 100%;
+            background: var(--col-cream);
+            box-shadow: -4px 0 20px rgba(93, 64, 55, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .mobile-menu-overlay.active .mobile-menu-panel {
+            transform: translateX(0);
+        }
+
+        /* Mobile Menu Header */
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(93, 64, 55, 0.1);
+            background: white;
+        }
+
+        .mobile-menu-logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--col-brown);
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(93, 64, 55, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .mobile-menu-close:focus {
+            outline: 2px solid var(--col-green);
+            outline-offset: 2px;
+        }
+
+        /* Mobile Menu Navigation */
+        .mobile-menu-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 24px;
+            gap: 8px;
+        }
+
+        .mobile-menu-link {
+            display: block;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--col-brown);
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-menu-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0;
+            background: var(--col-green);
+            border-radius: 0 4px 4px 0;
+            transition: height 0.3s ease;
+        }
+
+        .mobile-menu-link:hover,
+        .mobile-menu-link:focus {
+            background: rgba(104, 159, 56, 0.1);
+            color: var(--col-green);
+            padding-left: 28px;
+        }
+
+        .mobile-menu-link:hover::before,
+        .mobile-menu-link:focus::before {
+            height: 70%;
+        }
+
+        .mobile-menu-link:focus {
+            outline: 2px solid var(--col-green);
+            outline-offset: -2px;
+        }
+
+        /* CTA Button in Mobile Menu */
+        .mobile-menu-cta {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 1rem;
+            padding: 16px 35px;
+        }
+
+        .mobile-menu-cta:hover::before,
+        .mobile-menu-cta:focus::before {
+            display: none;
+        }
+
+        /* Mobile Menu Footer (Social Links) */
+        .mobile-menu-footer {
+            padding: 24px;
+            border-top: 1px solid rgba(93, 64, 55, 0.1);
+            background: white;
+        }
+
+        .mobile-social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--col-brown);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-social-link:hover {
+            background: rgba(104, 159, 56, 0.1);
+            color: var(--col-green);
+        }
+
+        .mobile-social-link svg {
+            flex-shrink: 0;
+        }
+
+        /* Prevent Body Scroll When Menu Open */
+        body.mobile-menu-open {
+            overflow: hidden;
+        }
+
+        /* Hide on Desktop (> 900px) */
+        @media(min-width: 900px) {
+            .mobile-menu-toggle,
+            .mobile-menu-overlay {
+                display: none !important;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media(max-width: 400px) {
+            .mobile-menu-panel {
+                width: 90%;
+            }
+
+            .mobile-menu-link {
+                font-size: 1rem;
+                padding: 14px 16px;
+            }
+        }
+
         /* --- HERO --- */
         .hero {
             height: 85vh;
@@ -497,6 +757,49 @@
                     <a href="#contact">Kontakt</a>
                     <a href="#contact" class="btn">Objednat</a>
                 </div>
+
+                <!-- Hamburger Menu Button (visible < 900px) -->
+                <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span class="hamburger-icon">
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                    </span>
+                </button>
+
+                <!-- Mobile Menu Panel -->
+                <div class="mobile-menu-overlay" aria-hidden="true">
+                    <div class="mobile-menu-panel">
+                        <!-- Header -->
+                        <div class="mobile-menu-header">
+                            <img src="images/logo.webp" alt="Apifarma Logo" class="mobile-menu-logo">
+                            <button class="mobile-menu-close" aria-label="Close menu">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Navigation Links -->
+                        <nav class="mobile-menu-nav">
+                            <a href="#about" class="mobile-menu-link">O nás</a>
+                            <a href="#apidomek" class="mobile-menu-link">Apidomek</a>
+                            <a href="#products" class="mobile-menu-link">Produkty</a>
+                            <a href="#contact" class="mobile-menu-link">Kontakt</a>
+                            <a href="#contact" class="btn mobile-menu-cta">Objednat</a>
+                        </nav>
+
+                        <!-- Social Links -->
+                        <div class="mobile-menu-footer">
+                            <a href="https://www.instagram.com/apifarma_bakov/" target="_blank" class="mobile-social-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                                Instagram
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -543,7 +846,7 @@
                         <div class="benefit-item"><span class="icon-check">✓</span> Hluboká relaxace</div>
                     </div>
                     <br>
-                    <a href="#contact" class="btn" id="rezervovat-btn">Rezervovat termín</a>
+                    <a href="#contact-form" class="btn" id="rezervovat-btn">Rezervovat termín</a>
                 </div>
                 <div class="service-img-wrapper">
                     <img src="images/interior.webp" alt="Interiér apidomku">
@@ -722,7 +1025,7 @@
                     </p>
                 </div>
 
-                <div class="contact-form">
+                <div class="contact-form" id="contact-form">
                     <h3 style="margin-bottom: 20px;">Napište nám</h3>
                     <form action="https://api.web3forms.com/submit" method="POST">
                         <input type="hidden" name="access_key" value="ee4d54ab-83c0-4ea0-93a6-2bbcf74e46cc">
@@ -826,6 +1129,123 @@
                 }
             });
         });
+
+        // ============================================
+        // MOBILE MENU FUNCTIONALITY
+        // ============================================
+
+        (function() {
+            'use strict';
+
+            // Cache DOM elements
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const menuOverlay = document.querySelector('.mobile-menu-overlay');
+            const menuPanel = document.querySelector('.mobile-menu-panel');
+            const menuClose = document.querySelector('.mobile-menu-close');
+            const menuLinks = document.querySelectorAll('.mobile-menu-nav a');
+            const body = document.body;
+
+            // Early return if elements don't exist
+            if (!menuToggle || !menuOverlay || !menuPanel || !menuClose) {
+                return;
+            }
+
+            // Open menu
+            function openMenu() {
+                menuOverlay.classList.add('active');
+                menuOverlay.setAttribute('aria-hidden', 'false');
+                menuToggle.setAttribute('aria-expanded', 'true');
+                body.classList.add('mobile-menu-open');
+
+                // Focus first menu link for accessibility
+                setTimeout(function() {
+                    if (menuLinks.length > 0) {
+                        menuLinks[0].focus();
+                    }
+                }, 300);
+            }
+
+            // Close menu
+            function closeMenu() {
+                menuOverlay.classList.remove('active');
+                menuOverlay.setAttribute('aria-hidden', 'true');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                body.classList.remove('mobile-menu-open');
+
+                // Return focus to toggle button for accessibility
+                menuToggle.focus();
+            }
+
+            // Toggle menu
+            function toggleMenu() {
+                const isOpen = menuOverlay.classList.contains('active');
+                if (isOpen) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            }
+
+            // Event Listeners
+            menuToggle.addEventListener('click', toggleMenu);
+            menuClose.addEventListener('click', closeMenu);
+
+            // Close when clicking overlay backdrop
+            menuOverlay.addEventListener('click', function(e) {
+                if (e.target === menuOverlay) {
+                    closeMenu();
+                }
+            });
+
+            // Close when clicking any menu link (smooth navigation)
+            menuLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    closeMenu();
+                });
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                // Close on Escape key
+                if (e.key === 'Escape' && menuOverlay.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+
+            // Trap focus inside menu when open
+            menuPanel.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    const focusableElements = menuPanel.querySelectorAll(
+                        'a, button, [tabindex]:not([tabindex="-1"])'
+                    );
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+
+                    // If shift+tab on first element, focus last
+                    if (e.shiftKey && document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    }
+                    // If tab on last element, focus first
+                    else if (!e.shiftKey && document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            });
+
+            // Close menu on window resize to desktop size
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth >= 900 && menuOverlay.classList.contains('active')) {
+                        closeMenu();
+                    }
+                }, 250);
+            });
+
+        })();
     </script>
 
 </body>

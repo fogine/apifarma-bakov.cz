@@ -567,8 +567,10 @@
             scroll-snap-type: x mandatory;
             height: 100%;
             width: 100%;
-            scrollbar-width: none; 
+            scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
         }
         .gallery-scroller::-webkit-scrollbar { display: none; }
 
@@ -1151,7 +1153,6 @@
                     gallery.appendChild(dotsContainer);
 
                     // Update active dot on scroll
-                    let scrollTimeout;
                     scroller.addEventListener('scroll', function() {
                         const scrollLeft = scroller.scrollLeft;
                         const itemWidth = scroller.clientWidth;
@@ -1165,58 +1166,7 @@
                                 dot.classList.remove('active');
                             }
                         });
-
-                        // Ensure snap to nearest item after scroll ends
-                        clearTimeout(scrollTimeout);
-                        scrollTimeout = setTimeout(function() {
-                            const itemWidth = scroller.clientWidth;
-                            const scrollLeft = scroller.scrollLeft;
-                            const targetIndex = Math.round(scrollLeft / itemWidth);
-                            const targetScroll = targetIndex * itemWidth;
-
-                            if (Math.abs(scrollLeft - targetScroll) > 1) {
-                                scroller.scrollTo({
-                                    left: targetScroll,
-                                    behavior: 'smooth'
-                                });
-                            }
-                        }, 100);
                     });
-
-                    // Prevent momentum scrolling from skipping items on touch devices
-                    let touchStartX = 0;
-                    let scrollStartLeft = 0;
-
-                    scroller.addEventListener('touchstart', function(e) {
-                        touchStartX = e.touches[0].clientX;
-                        scrollStartLeft = scroller.scrollLeft;
-                    }, { passive: true });
-
-                    scroller.addEventListener('touchend', function(e) {
-                        const itemWidth = scroller.clientWidth;
-                        const scrollLeft = scroller.scrollLeft;
-                        const scrollDiff = scrollLeft - scrollStartLeft;
-
-                        // Determine swipe direction and snap to nearest or next item
-                        let targetIndex = Math.round(scrollLeft / itemWidth);
-
-                        // If scrolled more than 30% of item width, go to next/previous
-                        if (Math.abs(scrollDiff) > itemWidth * 0.3) {
-                            if (scrollDiff > 0) {
-                                targetIndex = Math.ceil(scrollLeft / itemWidth);
-                            } else {
-                                targetIndex = Math.floor(scrollLeft / itemWidth);
-                            }
-                        }
-
-                        // Clamp to valid range
-                        targetIndex = Math.max(0, Math.min(items.length - 1, targetIndex));
-
-                        scroller.scrollTo({
-                            left: targetIndex * itemWidth,
-                            behavior: 'smooth'
-                        });
-                    }, { passive: true });
                 }
             });
         });

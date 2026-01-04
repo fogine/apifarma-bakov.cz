@@ -616,21 +616,31 @@
         }
         .tag.highlight { background: var(--col-green); color: white; border-color: var(--col-green); }
 
-        .swipe-hint {
+        /* Gallery Pagination Dots */
+        .gallery-dots {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            pointer-events: none;
+            gap: 6px;
             z-index: 10;
+            pointer-events: none;
+        }
+
+        .gallery-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: white;
+            transform: scale(1.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         /* Gallery Navigation Arrows */
@@ -868,7 +878,6 @@
                 <!-- 1. MED (Honey) - Multiple Images/Types -->
                 <div class="product-card">
                     <div class="gallery-container">
-                        <div class="swipe-hint">↔</div> 
                         <div class="gallery-scroller">
                             <div class="gallery-item">
                                 <img src="images/honey.webp" alt="Med Květový">
@@ -1125,6 +1134,35 @@
                     nextBtn.addEventListener('click', function() {
                         const scrollAmount = scroller.clientWidth;
                         scroller.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    });
+
+                    // Create pagination dots
+                    const dotsContainer = document.createElement('div');
+                    dotsContainer.className = 'gallery-dots';
+
+                    for (let i = 0; i < items.length; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'gallery-dot';
+                        if (i === 0) dot.classList.add('active');
+                        dotsContainer.appendChild(dot);
+                    }
+
+                    gallery.appendChild(dotsContainer);
+
+                    // Update active dot on scroll
+                    scroller.addEventListener('scroll', function() {
+                        const scrollLeft = scroller.scrollLeft;
+                        const itemWidth = scroller.clientWidth;
+                        const currentIndex = Math.round(scrollLeft / itemWidth);
+
+                        const dots = dotsContainer.querySelectorAll('.gallery-dot');
+                        dots.forEach(function(dot, index) {
+                            if (index === currentIndex) {
+                                dot.classList.add('active');
+                            } else {
+                                dot.classList.remove('active');
+                            }
+                        });
                     });
                 }
             });
